@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BookStore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<h2>Accounting</h2>
+<div class="container-fluid">
+<ul class="list-group">
+    <li class="list-group-item" th:each="bill:${allBills}">
+        <p th:text="|Sum: ${bill.totalPrice} €, Date: ${#temporals.format(bill.date, 'dd.MM.yyyy HH:mm')}|"></p>
+        <div class="container-float">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Book</th>
+                <th scope="col">Price</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Position sum</th>
+            </tr>
+            </thead>
+            <tr th:each="book:${bill.books}">
+                <td th:text="|${book.title} by ${book.author}|">MyBook by Me</td>
+                <td th:text="|${book.price} €|">404.00 €</td>
+                <td th:text="${book.orderAmount}">-1</td>
+                <td th:text="${book.discount}">0.0%</td>
+                <td th:text="|${book.totalAmount} €|">-404.00 €</td>
+            </tr>
+        </table>
+        </div>
+    </li>
+</ul>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+</html>

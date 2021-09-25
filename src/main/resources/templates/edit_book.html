@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BookStore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<div class="container-float m-5">
+    <form id="EditBook" method="post" th:action="${'/book/edit/' + book.id}">
+        <form class="row g-1 needs-validation">
+            <div class="col-md-4">
+                <label for="bookTitle" class="from-label">Book Title</label>
+                <input type="text" class="form-control" id="bookTitle" name="title" th:value="${book.title}" minlength="2" maxlength="30" required>
+            </div>
+            <div class="col-md-4">
+                <label for="bookAuthor" class="form-label">Book Author</label>
+                <input type="text" class="form-control" id="bookAuthor" name="author" th:value="${book.author}" minlength="2" maxlength="20" required>
+            </div>
+            <div class="col-md-4">
+                <label for="bookPrice" class="form-label">Book Price</label>
+                <input type="number" class="form-control" id="bookPrice" name="price" th:value="${book.price}" step="0.01" min="1.0" required>
+            </div>
+            <div class="col-md-4">
+                <label for="bookYear" class="form-label">Book Publication Year</label>
+                <input type="number" class="form-control" id="bookYear" name="publicationYear" th:value="${book.publicationYear}" min="1000" max="2050" required>
+            </div>
+            <div class="col-md-4">
+                <label for="bookAmount" class="form-label">Stock Amount</label>
+                <input type="number" class="form-control" id="bookAmount" name="stockAmount" th:value="${book.stockAmount}" min="0" required>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary btn-block edit-book" type="submit">Edit Book</button>
+            </div>
+            <p th:if="${error} ne null" th:text="${error}" class="alert alert-primary" style="color:red"></p>
+        </form>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+</html>

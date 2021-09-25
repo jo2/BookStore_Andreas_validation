@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BookStroe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+    Placeholder
+</div>
+<h2>Shopping cart</h2>
+<ul class="list-group">
+    <div class="container-float" th:if="${cart} ne null">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Book</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Discount</th>
+                    <th scope="col">Position sum</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="book:${cart.books}">
+                    <form class="cart-form" id="modify" th:action="@{cart/modify}" method="post">
+                        <tr>
+                            <td th:text="|${book.title} by ${book.author}|">MyBook by Me</td>
+                            <td th:text="|${book.price} €|">404.00 €</td>
+                            <td>
+                                <input type="hidden" id="id" th:value="${book.bookId}" name="id">
+                                <label for="orderAmount"></label>
+                                <input
+                                        type="number"
+                                        class="form-control"
+                                        id="orderAmount"
+                                        th:value="${book.orderAmount}"
+                                        name="orderAmount"
+                                        min="1" max="6" required
+                                        onchange="if(this.valid) this.form.submit()"
+                                >
+                                <input type="submit" hidden>
+                            </td>
+                            <td>
+                                <label for="discount"></label>
+                                <input
+                                        type="number"
+                                        class="form-control"
+                                        id="discount"
+                                        th:value="${book.discount}"
+                                        name="discount"
+                                        min="0" max="20" step="0.01" required
+                                        onchange="if(this.valid) this.form.submit()"
+                                >
+                            </td>
+                            <td th:text="|${book.totalAmount} €|">-404.00 €</td>
+                        </tr>
+                    </form>
+                </th:block>
+                </tbody>
+            </table>
+        <p th:text="|Sum: ${cart.totalAmount} €|">0.00€</p>
+        <div style="display: flex">
+            <form th:action="@{/cart/buy/}" method="post">
+                <button class="btn btn-success btn-block buy-books" type="submit">Buy</button>
+            </form>
+            <form th:action="@{/cart/clear}" method="post">
+                <button class="btn btn-danger btn-block clear-cart" type="submit">Clear cart</button>
+            </form>
+        </div>
+        <p th:if="${error} ne null" th:text="${error}" class="alert alert-primary" style="color:red"></p>
+    </div>
+    <div th:if="${cart == null}">
+        <p>Woah... this emptiness of you cart</p>
+        <p>Now go and buy stuff!</p>
+    </div>
+</ul>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+</body>
+</html>

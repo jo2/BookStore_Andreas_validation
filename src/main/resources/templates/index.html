@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BookStore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+    Placeholder
+</div>
+
+<h2>BookStore</h2>
+<div class="container-float">
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Year</th>
+            <th scope="col">Price</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tr th:each="book:${allBooks}">
+        <td  th:text="${book.id}">0</td>
+        <td><a th:href="@{'/book/'+${book.id}}" th:text="${book.title}">My Title</a></td>
+        <td th:text="${book.author}">Me</td>
+        <td th:text="${book.publicationYear}">1970</td>
+        <td th:text="|${book.price}€|">404.00€</td>
+        <td th:text="${book.stockAmount}">-1</td>
+        <td>
+            <div style="justify-content: flex-start; display: flex;">
+            <form id="editBook" method="get" th:action="'book/edit/' + ${book.id}">
+                <button
+                        type="submit"
+                        class="btn btn-light"
+                >
+                    Edit
+                </button>
+            </form>
+            <form id="addToCart" method="post" th:action="'/cart/add/' + ${book.id}">
+                <button type="submit" class="btn btn-info" th:if="${book.stockAmount > 0}">
+                    Add to Card
+                </button>
+            </form>
+            <form id="deleteBook" method="post" th:action="'book/delete/' + ${book.id}">
+                <button
+                        type="submit"
+                        class="btn btn-danger delete-book"
+                        th:onclick="if(!(confirm('Are you sure to delete this book?'))) return false"
+                >
+                    Delete
+                </button>
+            </form>
+            </div>
+        </td>
+    </tr>
+</table>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+</html>
